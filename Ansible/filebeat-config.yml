@@ -1,0 +1,92 @@
+######################## Filebeat Configuration ############################
+# Cyber Security Class
+# Walcott Denison III
+#
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+
+#==========================  Modules configuration =============================
+filebeat.modules:
+
+#---------------------------- Elasticsearch Module ----------------------------
+- module: elasticsearch
+  # Server log
+  server:
+    enabled: true
+
+  gc:
+    enabled: true
+
+  audit:
+    enabled: true
+
+  slowlog:
+    enabled: true
+
+    enabled: true
+
+#------------------------------- Haproxy Module -------------------------------
+- module: haproxy
+  # All logs
+  log:
+    enabled: true
+
+#-------------------------------- Kafka Module --------------------------------
+- module: kafka
+  # All logs
+  log:
+    enabled: true
+
+#-------------------------------- Kibana Module --------------------------------
+- module: kibana
+  # All logs
+  log:
+    enabled: true
+
+#--------------------------------- Nats Module ---------------------------------
+- module: nats
+  # All logs
+  log:
+    enabled: true
+
+#------------------------------- Osquery Module -------------------------------
+- module: osquery
+  result:
+    enabled: true
+
+#----------------------------- Google Santa Module -----------------------------
+- module: santa
+  log:
+    enabled: true
+
+#=========================== Filebeat inputs =============================
+
+# List of inputs to fetch data.
+filebeat.inputs:
+
+#------------------------------ Log input --------------------------------
+- type: log
+
+  enabled: false
+
+    - /var/log/*.log
+
+#-------------------------- Elasticsearch output -------------------------------
+output.elasticsearch:
+
+  hosts: ["10.1.0.4:9200"]
+  username: "elastic"
+  password: "changeme" # TODO: Change this to the password you set
+
+# Elasticsearch template settings
+setup.template.settings:
+
+#============================== Kibana =====================================
+
+setup.kibana:
+  host: "10.1.0.4:5601" # TODO: Change this to the IP address of your ELK server
+
+logging.to_files: true
+logging.files:
+
+

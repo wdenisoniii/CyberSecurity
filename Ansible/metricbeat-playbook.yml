@@ -1,0 +1,41 @@
+---
+# Cyber Security Class
+# Walcott Denison III
+
+# set up for playbook
+- name: Install Metric beat
+  hosts: webservers
+  become: true
+  tasks:
+
+# get the file needed
+  - name: download metricbeat
+    command: curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.4.0-amd64.deb
+
+# install it
+  - name: install metricbeat
+    command: dpkg -i metricbeat-7.4.0-amd64.deb
+
+# copy the config file to the remote server
+  - name: drop in metricbeat config
+    copy:
+      src: /etc/ansible/files/metricbeat-config.yml
+      dest: /etc/metricbeat/metricbeat.yml
+
+# get it going on the remote sever
+  - name: enable and configure docker module for metric beat
+    command: metricbeat modules enable docker
+
+# Set it up
+  - name: setup metric beat
+    command: metricbeat setup
+
+# start the metricbeat service
+  - name: start metric beat
+    command: service metricbeat start
+
+# set up auto start on boot
+  - name: Enable metric beat on boot
+    systemd:
+      name: metricbeat
+      enabled: yes

@@ -1,0 +1,54 @@
+---
+# Cyber Security Class
+# Walcott Denison III
+#
+- name: Config ELK VM with Docker
+  hosts: elk
+  remote_user: azdmin
+  become: true
+  tasks:
+  # Use the apt module
+  - name: install docker.iO
+    apt:
+      update_cache: yes
+      name: docker.io
+      state: present
+
+  # Use the apt module
+  - name: Install pip3
+    apt:
+      force_apt_get: yes
+      name: python3-pip
+      state: present
+
+  # Use the pip module
+  - name: Install docker python module
+    pip:
+      name: docker
+      state: present
+
+  # Use the sysctl module
+  - name: set memory size
+    sysctl:
+      name: vm.max_map_count
+      value: "262144"
+      state: present
+      reload: yes
+
+  # Use the docker container module
+  - name: download and launch an elk container
+    docker_container:
+      name: elk
+      image: sebp/elk:761
+      state: started
+      restart_policy: always
+      published_ports:
+        - 5601:5601
+        - 9200:9200
+        - 5044:5044
+
+  # Use systemd module
+  - name: enable docker service on boot
+    systemd:
+      name: docker
+      enabled: yes

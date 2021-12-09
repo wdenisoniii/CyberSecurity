@@ -1,0 +1,34 @@
+###################### Metricbeat Configuration Example #######################
+# Cyber Security Class
+# Walcott Denison III
+#
+#==========================  Modules configuration ============================
+
+metricbeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+
+  reload.enabled: false
+
+#==================== Elasticsearch template setting ==========================
+
+setup.template.settings:
+  index.number_of_shards: 1
+  index.codec: best_compression
+ 
+#============================== Kibana =====================================
+
+setup.kibana:
+  host: "10.1.0.4:5601"
+
+#-------------------------- Elasticsearch output ------------------------------
+output.elasticsearch:
+
+  hosts: ["10.1.0.4:9200"]
+  username: "elastic"
+  password: "changeme"
+
+#================================ Processors =====================================
+
+processors:
+  - add_host_metadata: ~
+  - add_cloud_metadata: ~
