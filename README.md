@@ -106,29 +106,48 @@ SSH into the control node and follow the steps below:
 - Run the playbook, and navigate to http://elk_server_IP:5601/app/kibana#/home to check that the installation worked as expected.
 
 List of commands:
+
 on the jumpbox
+
   sudo apt install docker.io
+  
   sudo systemctl status docker
+  
   if not running do this sudo systemctl start docker
+  
   sudo docker pull cybersecurity/ansible
+  
   sudo docker run -ti cyberxsecurity/ansible:latest bash
+  
   ssh-keygen (create a public key)
+  
   cat /root/.ssh/id_rsa.pub (to get the key)
+  
   copy the key
+  
   change the logon to this key on all WEB and ELK servers
+  
   nano ansible.cfg (edit remote user logon)
+  
   nano hosts (be sure to add 'ansible_python_interpreter=/usr/bin/python3' on each IP)
   
  Playbooks
-   make sure all playbook, config, and hosts files are located in /etc/ansible
-   docker
+ 
+   make sure all playbook, config, and hosts files are located in /etc/ansible/.
+   
   ansable-playbook DVWA-playbook.yml (install WEB servers)
+  
   ansibal-playbook filebeat.yml (installs Filebeat)
+  
   ansibale metricbook.yml (installs metricbook)
   
+  
 Testing
+
    from the jump box ssh to each web server,
+   
        docker ps on each one
+       
    use a web browser to check that filebeat and metricbeat are runing. 
   
   
