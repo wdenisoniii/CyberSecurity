@@ -149,6 +149,4 @@ Testing
        docker ps on each one
        
    use a web browser to check that filebeat and metricbeat are runing. 
-  
-  
-  
+   
