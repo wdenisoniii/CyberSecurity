@@ -2,13 +2,13 @@
 
 The files in this repository were used to configure the network depicted below.
 
-**Note**: The following image link needs to be updated. Replace `diagram_filename.png` with the name of your diagram image file.  
+ 
 
-![Diagrams/Red_Team_Network.Drawing.png](Images/Red_Team_Network.drawio.png)
+![Red_Team_Network Drawing](Diagrams/Red_Team_Network.Drawing.png)
 
-These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the _____ file may be used to install only certain pieces of it, such as Filebeat.
+These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the playbook files may be used to install only certain pieces of it, such as Filebeat.
 
-  - _TODO: Enter the playbook file._
+  ![DVWA install](Ansible/DVWA-Playbook.yml)
 
 This document contains the following details:
 - Description of the Topologu
@@ -23,50 +23,56 @@ This document contains the following details:
 
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the D*mn Vulnerable Web Application.
 
-Load balancing ensures that the application will be highly _____, in addition to restricting _____ to the network.
-- _TODO: What aspect of security do load balancers protect? What is the advantage of a jump box?_
+Load balancing ensures that the application will be highly redundant, in addition to restricting access to the network.
+Load balances provide redundancy in case of a failure on the WEB server. In addition, load balancers help even out the traffic load during high usage to prevent users from having a bad browsing experience, for example long load times.
 
-Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the _____ and system _____.
-- _TODO: What does Filebeat watch for?_
-- _TODO: What does Metricbeat record?_
+
+Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the logs and system operating system and services.
+
+Filebeat is used to monitor log files or locations you desire to monitor. Filebeat then centralizes that data for Elasticsearch to index for use.
+Metricbeat is used to collect operations system statistics and metric information on services. Metricbeat then sends the output to Elasticsearch for monitoring
 
 The configuration details of each machine may be found below.
 _Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
 
 | Name     | Function | IP Address | Operating System |
 |----------|----------|------------|------------------|
-| Jump Box | Gateway  | 10.0.0.1   | Linux            |
-| TODO     |          |            |                  |
-| TODO     |          |            |                  |
-| TODO     |          |            |                  |
+| Jump Box | Gateway  | 10.0.0.4   | Linux            |
+| WEB1     |WEB Server| 10.0.0.7   | Linux            |
+| WEB2     |WEB Server| 10.0.0.8   | Linux            |
+| WEB3     |WEB Server| 10.0.0.9   | Linux            |
 
 ### Access Policies
 
 The machines on the internal network are not exposed to the public Internet. 
 
-Only the _____ machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
-- _TODO: Add whitelisted IP addresses_
+Only the Jumpbox machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
+Home Computer 166.170.34.77
 
-Machines within the network can only be accessed by _____.
-- _TODO: Which machine did you allow to access your ELK VM? What was its IP address?_
+Machines within the network can only be accessed by the jumpbox.
+Only the home PC at 160.170.34.77 can access the Elk Server, 
 
 A summary of the access policies in place can be found in the table below.
 
 | Name     | Publicly Accessible | Allowed IP Addresses |
 |----------|---------------------|----------------------|
-| Jump Box | Yes/No              | 10.0.0.1 10.0.0.2    |
-|          |                     |                      |
-|          |                     |                      |
+| Jump Box | Yes                 |  166.170.34.77       |
+| WEB1     | Yes                 |  166.170.34.77       |
+| Web2     | Yes                 |  166.170.34.77       |
+| Web3     | Yes                 |  166.170.34.77       |
 
 ### Elk Configuration
 
-Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
-- _TODO: What is the main advantage of automating configuration with Ansible?_
+Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because
+every deployment is the same. One change can be rolled out too many server quickly
 
 The playbook implements the following tasks:
-- _TODO: In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
-- ...
-- ...
+install Docker.io
+Get pip3
+Install pip3
+Set memory size
+launch the ELK container
+enable docker on boot
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
