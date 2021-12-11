@@ -129,7 +129,7 @@ on the jumpbox
 Testing
    from the jump box ssh to each web server,
        docker ps on each one
-   use a web browser to check that filebeats and metric beets are runing inwith kibana. 
+   use a web browser to check that filebeat and metricbeat are runing. 
   
   
   
