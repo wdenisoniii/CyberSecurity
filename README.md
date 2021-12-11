@@ -2,16 +2,16 @@
 
 The files in this repository were used to configure the network depicted below.
 
- 
+
 
 ![Red_Team_Network Drawing](Diagrams/Red_Team_Network.Drawing.png)
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the playbook files may be used to install only certain pieces of it, such as Filebeat.
 
-  ![DVWA install](Ansible/DVWA-Playbook.yml)
+  ![Install Files used in this network](Ansible/)
 
 This document contains the following details:
-- Description of the Topologu
+- Description of the Topology
 - Access Policies
 - ELK Configuration
   - Beats in Use
@@ -37,7 +37,7 @@ _Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdow
 
 | Name     | Function | IP Address | Operating System |
 |----------|----------|------------|------------------|
-| Jump Box | Gateway  | 10.0.0.4   | Linux            |
+| Jump Box |Gateway   | 10.0.0.4   | Linux            |
 | WEB1     |WEB Server| 10.0.0.7   | Linux            |
 | WEB2     |WEB Server| 10.0.0.8   | Linux            |
 | WEB3     |WEB Server| 10.0.0.9   | Linux            |
@@ -64,7 +64,7 @@ A summary of the access policies in place can be found in the table below.
 ### Elk Configuration
 
 Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because
-every deployment is the same. One change can be rolled out too many server quickly
+every deployment is the same. One change can be rolled out too many servers quickly
 
 The playbook implements the following tasks:
 install Docker.io
@@ -76,9 +76,6 @@ enable docker on boot
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-**Note**: The following image link needs to be updated. Replace `docker_ps_output.png` with the name of your screenshot image file.  
-
-
 ![Docker PS Command](Images/Elk_Docker_PS_Command.PNG)
 
 ### Target Machines & Beats
@@ -86,27 +83,55 @@ This ELK server is configured to monitor the following machines:
 10.0.0.7, 10.0.0.8, and 10.0.0.9
 
 We have installed the following Beats on these machines:
+
 filebeat 7.6.1-amd64.deb
+
 metricbeat-7.4.0-amd64.deb
 
-
 These Beats allow us to collect the following information from each machine:
+
 filebeat allows the collection of all WEB traffic data such as users, response time, OS, country locations, browser version and more.
+
 metricbeat allows collection of logs which include SSH logons and user access as well as data on each WEB server.
 
 
 ### Using the Playbook
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
+To make ansible run you need to update the ansible.cfg and hosts file with the ip of the VM you are on and staart ansible.
+
 SSH into the control node and follow the steps below:
-- Copy the playbook file to /etc/ansible/.
-- Update the hosts file to include the IP's of the machines to apply the playbook to.
-- Run the playbook, and navigate to http://20.106.254.85:5601/app/kibana#/home to check that the installation worked as expected.
+- Copy the filebeat-playbook.yml and metricbeat-playbook.yml and config files to /etc/ansible/ folder.
+- Update the hosts file to include the IP's of the machines to apply the playbook to. Use the filebeat and metricbeat config file to indicate where too install.
+- Run the playbook, and navigate to http://elk_server_IP:5601/app/kibana#/home to check that the installation worked as expected.
 
+Use a WEB browser and check for proper operations by going here: http://20.106.254.85:5601/app/kibana#/home
 
-filebeat-playbook.yml and metricbeat-playbook.yml located in the /etc/ansible/ folder.
-To make ansible run you need to update the hosts file with the ip of the VM you want it installed on. In the hosts file you need to create sections one for [elk] place the elk servier ip here, and place the WEB servers in the [webserver] section.
-You then need to update the filebeat-config.yml and the metricbeat-config.yml files to tell them what Vm's to install on.
-
-Use a WEB browser and check for propor operations by going here, http://20.106.254.85:5601/app/kibana#/home
-_As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
+List of commands:
+on the jumpbox
+  sudo apt install docker.io
+  sudo systemctl status docker
+  if not running do this sudo systemctl start docker
+  sudo docker pull cybersecurity/ansible
+  sudo docker run -ti cyberxsecurity/ansible:latest bash
+  ssh-keygen (create a public key)
+  cat /root/.ssh/id_rsa.pub (to get the key)
+  copy the key
+  change the logon to this key on all WEB and ELK servers
+  nano ansible.cfg (edit remote user logon)
+  nano hosts (be sure to add 'ansible_python_interpreter=/usr/bin/python3' on each IP)
+  
+ Playbooks
+   make sure all playbook, config, and hosts files are located in /etc/ansible
+   docker
+  ansable-playbook DVWA-playbook.yml (install WEB servers)
+  ansibal-playbook filebeat.yml (installs Filebeat)
+  ansibale metricbook.yml (installs metricbook)
+  
+Testing
+   from the jump box ssh to each web server,
+       docker ps on each one
+   use a web browser to check that filebeats and metric beets are runing inwith kibana. 
+  
+  
+  
