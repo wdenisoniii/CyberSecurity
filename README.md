@@ -105,8 +105,6 @@ SSH into the control node and follow the steps below:
 - Update the hosts file to include the IP's of the machines to apply the playbook to. Use the filebeat and metricbeat config file to indicate where too install.
 - Run the playbook, and navigate to http://elk_server_IP:5601/app/kibana#/home to check that the installation worked as expected.
 
-Use a WEB browser and check for proper operations by going here: http://20.106.254.85:5601/app/kibana#/home
-
 List of commands:
 on the jumpbox
   sudo apt install docker.io
